@@ -69,35 +69,58 @@ describe MagicSeven do
   # ASSIGNMENT
   # Write a test for each of the following methods:
 
-  describe '#subtract_four' do
+  context 'when the previous step is 4' do
+    let(:previous_step) { 4 }
+    describe '#subtract_four' do
+      it 'returns 0' do
+        expect(subject.subtract_four(previous_step)).to be_zero
+      end
+    end
+
+    describe '#divide_by_two' do
+      it 'returns 2' do
+        expect(subject.divide_by_two(previous_step)).to be 2
+      end
+    end
   end
 
-  describe '#divide_by_two' do
-  end
+  let(:random_number) { nil }
+  subject { described_class.new(random_number) }
 
   # The following tests will need you to create new instances of MagicSeven with
   # a specific value for the random_number.
   describe '#subtract_random_number' do
+    context 'when number is 9 and random_number is 4' do
+      let(:number) { 9 }
+      let(:random_number) { 4 }
+
+      it 'will return 5' do
+        expect(subject.subtract_random_number(number)).to eq 5
+      end
+    end
   end
 
   # The #play method will always return seven! Test this game, using any
   # positive integer as the random_number. Update the context with the number.
   describe '#play' do
-    context 'when the random number is ...' do
-      # remove the 'x' before running this test
-      xit 'will return 7' do
+    context 'when the random number is 3' do
+      let(:random_number) { 3 }
+      it 'will return 7' do
+        expect(subject.play).to eq 7
       end
     end
 
-    context 'when the random number is ...' do
-      # remove the 'x' before running this test
-      xit 'will return 7' do
+    context 'when the random number is 19' do
+      let(:random_number) { 19 }
+      it 'will return 7' do
+        expect(subject.play).to eq 7
       end
     end
 
-    context 'when the random number is ...' do
-      # remove the 'x' before running this test
-      xit 'will return 7' do
+    context 'when the random number is 2' do
+      let(:random_number) { 2 }
+      it 'will return 7' do
+        expect(subject.play).to eq 7
       end
     end
   end

@@ -3,6 +3,8 @@
 require_relative '../lib/16a_caesar_breaker'
 require_relative '../lib/16b_caesar_translator'
 
+require 'fileutils'
+
 # The file order to complete this lesson:
 
 # 1. Familarize yourself with the four lib/16 files.
@@ -43,7 +45,12 @@ describe CaesarBreaker do
     # Located inside #decrypt (Public Script Method)
 
     # Method with Outgoing Command -> Test that a message is sent
-    xit 'sends translate 26 times' do
+    it 'sends translate 26 times' do
+      expect(translator)
+        .to receive(:translate)
+        .with(instance_of(Integer))
+        .exactly(26).times
+      subject.create_decrypted_messages
     end
   end
 
@@ -83,14 +90,22 @@ describe CaesarBreaker do
       # Write the following 3 tests:
 
       # Method with Outgoing Command -> Test that a message is sent
-      xit 'opens a new File' do
+      it 'opens a new File' do
+        expect(File).to receive(:open).with(instance_of(String), 'w').once
+        phrase.save_decrypted_messages
       end
 
       # Method with Outgoing Command -> Test that a message is sent
-      xit 'makes new directory' do
+      it 'makes new directory' do
+        allow(Dir).to receive(:exist?).and_return(false)
+        expect(Dir).to receive(:mkdir).with(instance_of(String)).once
+        phrase.save_decrypted_messages
       end
 
-      xit 'does not make new directory' do
+      it 'does not make new directory' do
+        allow(Dir).to receive(:exist?).and_return(true)
+        expect(Dir).not_to receive(:mkdir)
+        phrase.save_decrypted_messages
       end
     end
 
@@ -128,7 +143,11 @@ describe CaesarBreaker do
   describe '#save_to_yaml' do
     # Method with Outgoing Command -> Test that a message is sent
 
-    xit 'dumps to yaml' do
+    it 'dumps to yaml' do
+      expect(YAML)
+        .to receive(:dump)
+        .with(hash_including('message', 'decrypted_messages'))
+      phrase.save_to_yaml
     end
   end
 end
